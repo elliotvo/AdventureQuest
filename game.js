@@ -35,23 +35,23 @@ const caveMaps = [
     description: "Den første grotte med korte gange og mange vægge.",
     layout: [
       "########",
-      "#S..T..#",
+      "#S..T.F#",
       "#.##.#.#",
-      "#..M.#E#",
-      "#T.#...#",
-      "#..M.T.#",
+      "#..O.#E#",
+      "#T.#B..#",
+      "#..B.T.#",
       "########",
     ],
   },
   {
     id: "echo-cave",
     name: "Ekkogrotten",
-    description: "En ny grotte med længere gange, et monster og gemte skatte.",
+    description: "En ny grotte med længere gange og flere ulækre monstre.",
     layout: [
       "########",
-      "#S..T.E#",
+      "#S..TFE#",
       "#.##.#.#",
-      "#..M...#",
+      "#..F.O.#",
       "##.#.#.#",
       "#T...T.#",
       "########",
@@ -69,14 +69,50 @@ const directions = [
 const sceneImages = {
   hallway: "assets/cave-hallway.svg",
   wall: "assets/cave-wall.svg",
-  monster: "assets/cave-monster.svg",
   treasure: "assets/cave-treasure.svg",
   exit: "assets/cave-exit.svg",
 };
 
+const monsterTypes = {
+  M: {
+    name: "Mugmonsteret",
+    shortLabel: "M",
+    health: 7,
+    damage: 2,
+    image: "assets/cave-monster.svg",
+    alt: "Et grønt monster står i grottegangen",
+    description: "Det lugter af gammel mose og sure sokker.",
+  },
+  F: {
+    name: "Tanddyret",
+    shortLabel: "T",
+    health: 8,
+    damage: 3,
+    image: "assets/cave-fang-beast.svg",
+    alt: "Et ubehageligt tanddyr viser sine lange tænder",
+    description: "Det klikker med tænderne og kradser i stenene.",
+  },
+  O: {
+    name: "Øjeslimen",
+    shortLabel: "Ø",
+    health: 5,
+    damage: 1,
+    image: "assets/cave-eye-slime.svg",
+    alt: "En klæbrig øjeslim bobler i grotten",
+    description: "Den blinker for meget og efterlader slim på gulvet.",
+  },
+  B: {
+    name: "Knoglekryberen",
+    shortLabel: "K",
+    health: 6,
+    damage: 2,
+    image: "assets/cave-bone-crawler.svg",
+    alt: "En knoglekryber spærrer grottegulvet",
+    description: "Den skramler hen over gulvet med alt for mange knogler.",
+  },
+};
+
 const treasureGoal = 3;
-const monsterStartHealth = 7;
-const monsterDamage = 2;
 
 const mapList = document.querySelector("#map-list");
 const heroList = document.querySelector("#hero-list");
@@ -114,8 +150,11 @@ function createBoardState(caveMap) {
         tiles[y][x] = ".";
       }
 
-      if (tile === "M") {
-        monsters[coordKey(x, y)] = monsterStartHealth;
+      if (isMonsterTile(tile)) {
+        monsters[coordKey(x, y)] = {
+          type: tile,
+          health: monsterTypes[tile].health,
+        };
       }
     });
   });
@@ -247,7 +286,7 @@ function moveForward() {
     return;
   }
 
-  if (tile === "M") {
+  if (isMonsterTile(tile)) {
     fightMonster(next);
     return;
   }
@@ -270,20 +309,22 @@ function moveForward() {
 
 function fightMonster(next) {
   const key = coordKey(next.x, next.y);
-  game.monsters[key] -= game.hero.power;
+  const monster = game.monsters[key];
+  const monsterType = monsterTypes[monster.type];
+  monster.health -= game.hero.power;
 
-  if (game.monsters[key] <= 0) {
+  if (monster.health <= 0) {
     delete game.monsters[key];
     game.tiles[next.y][next.x] = ".";
     game.position = next;
-    addMessage("Monsteret blev besejret! Du træder forbi det.");
+    addMessage(`${monsterType.name} blev besejret! Du træder forbi det.`);
     renderGame();
     return;
   }
 
-  game.health -= monsterDamage;
+  game.health -= monsterType.damage;
   addMessage(
-    `Du ramte monsteret, men det ramte tilbage. Monsterets liv: ${game.monsters[key]}.`,
+    `Du ramte ${monsterType.name.toLowerCase()}, men det ramte tilbage. Monsterets liv: ${monster.health}.`,
   );
 
   if (game.health <= 0) {
@@ -368,14 +409,15 @@ function sceneForTile(tile) {
     };
   }
 
-  if (tile === "M") {
-    const monsterHealth = game.monsters[coordKey(tileInFront().x, tileInFront().y)];
+  if (isMonsterTile(tile)) {
+    const monster = game.monsters[coordKey(tileInFront().x, tileInFront().y)];
+    const monsterType = monsterTypes[monster.type];
 
     return {
-      image: sceneImages.monster,
-      alt: "Et grønt monster står i grottegangen",
-      title: "Et monster står foran dig!",
-      description: `Gå frem for at angribe. Monsterets liv: ${monsterHealth}.`,
+      image: monsterType.image,
+      alt: monsterType.alt,
+      title: `${monsterType.name} står foran dig!`,
+      description: `${monsterType.description} Gå frem for at angribe. Liv: ${monster.health}.`,
     };
   }
 
@@ -422,13 +464,20 @@ function passageHintMarkup() {
 }
 
 function tileHint(tile) {
+  if (isMonsterTile(tile)) {
+    return monsterTypes[tile].name.toLowerCase();
+  }
+
   return {
     "#": "væg",
     "T": "skat",
-    "M": "monster",
     "E": "udgang",
     ".": "gang",
   }[tile] ?? "væg";
+}
+
+function isMonsterTile(tile) {
+  return Object.prototype.hasOwnProperty.call(monsterTypes, tile);
 }
 
 function renderBoard() {
@@ -465,19 +514,25 @@ function renderMapToggle() {
 }
 
 function tileClass(tile) {
+  if (isMonsterTile(tile)) {
+    return "monster";
+  }
+
   return {
     "#": "wall",
     "T": "treasure",
-    "M": "monster",
     "E": "exit",
   }[tile] ?? "floor";
 }
 
 function tileText(tile) {
+  if (isMonsterTile(tile)) {
+    return monsterTypes[tile].shortLabel;
+  }
+
   return {
     "#": "",
     "T": "$",
-    "M": "M",
     "E": "Ud",
   }[tile] ?? "";
 }
@@ -487,10 +542,13 @@ function tileLabel(tile, hasHero) {
     return `Helten ${game.hero.name}, ser mod ${currentDirection().label}`;
   }
 
+  if (isMonsterTile(tile)) {
+    return monsterTypes[tile].name;
+  }
+
   return {
     "#": "Væg",
     "T": "Skat",
-    "M": "Monster",
     "E": "Udgang",
   }[tile] ?? "Grottegang";
 }

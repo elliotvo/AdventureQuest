@@ -55,7 +55,8 @@ http://localhost:8000
 - [x] Drej helten, så man kan kigge i andre retninger.
 - [x] Vis og gem kortet med en kort-knap.
 - [x] Find skatte.
-- [x] Kæmp mod monstre.
+- [x] Kæmp mod flere forskellige monstre.
+- [x] Mød Tanddyret, Øjeslimen og Knoglekryberen.
 - [x] Vind ved at finde udgangen.
 
 ### Trin 2: Brug jeres tegninger
@@ -79,7 +80,7 @@ assets/treasures/chest.png
 ### Trin 3: Gør spillet sjovere
 
 - Endnu flere baner.
-- Flere monstre med forskellige styrker.
+- Endnu flere monstre med forskellige styrker og egne tegninger.
 - Nøgler, døre og hemmelige rum.
 - Lydeffekter.
 - En startskærm med spillets historie.

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Bone crawler</title>
+  <desc id="desc">A crawling bone monster blocks the cave floor.</desc>
+  <defs>
+    <radialGradient id="cave" cx="50%" cy="58%" r="58%">
+      <stop offset="0" stop-color="#8a7d69"/>
+      <stop offset="0.42" stop-color="#373140"/>
+      <stop offset="1" stop-color="#111018"/>
+    </radialGradient>
+  </defs>
+  <rect width="960" height="540" fill="url(#cave)"/>
+  <path d="M0 0h300l132 223H0zm960 0H660L528 223h432z" fill="#211b2b"/>
+  <ellipse cx="480" cy="442" rx="280" ry="60" fill="#0f0d15" opacity=".7"/>
+  <path d="M325 388c28-70 91-112 155-112s127 42 155 112c20 50-40 106-155 106s-175-56-155-106z" fill="#d8d0b5" stroke="#332c2d" stroke-width="12"/>
+  <path d="M359 315l-80-58m322 58l80-58M329 394l-95-24m397 24l95-24M374 462l-70 50m282-50l70 50" fill="none" stroke="#d8d0b5" stroke-width="22" stroke-linecap="round"/>
+  <path d="M411 372c24-22 114-22 138 0" fill="none" stroke="#332c2d" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="432" cy="395" r="24" fill="#16131a"/>
+  <circle cx="528" cy="395" r="24" fill="#16131a"/>
+  <path d="M442 453h76m-58-29h40" stroke="#332c2d" stroke-width="12" stroke-linecap="round"/>
+  <path d="M267 190c51 17 94 20 135 10m291-10c-49 15-91 18-129 10" fill="none" stroke="#f6e8b3" stroke-width="8" stroke-linecap="round" opacity=".3"/>
+</svg>

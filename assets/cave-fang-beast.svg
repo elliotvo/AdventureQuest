@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Fang beast</title>
+  <desc id="desc">A nasty fang beast waits in the cave passage.</desc>
+  <defs>
+    <radialGradient id="cave" cx="50%" cy="58%" r="58%">
+      <stop offset="0" stop-color="#9b4949"/>
+      <stop offset="0.38" stop-color="#39283d"/>
+      <stop offset="1" stop-color="#111018"/>
+    </radialGradient>
+    <linearGradient id="fur" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#8e3156"/>
+      <stop offset="1" stop-color="#3b1730"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="540" fill="url(#cave)"/>
+  <path d="M0 0h300l120 220H0zm960 0H660L540 220h420z" fill="#211829"/>
+  <ellipse cx="480" cy="452" rx="230" ry="48" fill="#120f18" opacity=".7"/>
+  <path d="M315 402c-32-118 45-220 163-220s198 98 167 220c-19 76-88 114-165 114s-143-38-165-114z" fill="url(#fur)" stroke="#1f0d1c" stroke-width="12"/>
+  <path d="M334 246l-44-103 112 56m224 47l48-103-116 56" fill="#4a1a39" stroke="#1f0d1c" stroke-width="10" stroke-linejoin="round"/>
+  <circle cx="420" cy="315" r="35" fill="#ffe077"/>
+  <circle cx="540" cy="315" r="35" fill="#ffe077"/>
+  <circle cx="430" cy="325" r="13" fill="#151018"/>
+  <circle cx="530" cy="325" r="13" fill="#151018"/>
+  <path d="M405 400c46 34 101 34 150 0" fill="none" stroke="#151018" stroke-width="18" stroke-linecap="round"/>
+  <path d="M420 407l20 64 29-53 30 55 27-55 19 63" fill="#f8f2dc"/>
+  <path d="M256 174c42 18 89 26 143 20m305-20c-47 18-96 25-146 20" fill="none" stroke="#ffce6c" stroke-width="8" stroke-linecap="round" opacity=".28"/>
+</svg>
