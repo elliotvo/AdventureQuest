@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Dark cave hallway</title>
+  <desc id="desc">A spooky cave passage seen from inside the cave.</desc>
+  <defs>
+    <radialGradient id="torch" cx="50%" cy="58%" r="58%">
+      <stop offset="0" stop-color="#d59d58"/>
+      <stop offset="0.28" stop-color="#60455a"/>
+      <stop offset="1" stop-color="#13101c"/>
+    </radialGradient>
+    <linearGradient id="floor" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#2f2a3c"/>
+      <stop offset="1" stop-color="#17131f"/>
+    </linearGradient>
+    <filter id="soft">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+  </defs>
+  <rect width="960" height="540" fill="#120f1a"/>
+  <path d="M0 0h960v540H0z" fill="url(#torch)"/>
+  <path d="M0 0h310l135 220H0z" fill="#231d2e"/>
+  <path d="M960 0H650L515 220h445z" fill="#231d2e"/>
+  <path d="M0 540h330l115-205H0z" fill="url(#floor)"/>
+  <path d="M960 540H630L515 335h445z" fill="url(#floor)"/>
+  <path d="M332 0h296l-84 205H416z" fill="#30283d"/>
+  <path d="M388 206h184l54 334H334z" fill="#1b1625"/>
+  <path d="M414 228h132l34 312H380z" fill="#0f0c16"/>
+  <path d="M44 0l54 92 36-92zm150 0l42 126 58-126zm535 0l-48 118-52-118zm147 0l-34 98-62-98z" fill="#17131f"/>
+  <path d="M139 370c89-34 164-39 252-19M563 350c94-19 173-10 277 31" fill="none" stroke="#473a54" stroke-width="12" stroke-linecap="round" opacity=".7"/>
+  <circle cx="480" cy="280" r="76" fill="#f4b35f" opacity=".18" filter="url(#soft)"/>
+  <circle cx="188" cy="166" r="18" fill="#f2b705" opacity=".8"/>
+  <circle cx="760" cy="183" r="14" fill="#f2b705" opacity=".72"/>
+  <path d="M172 186c36 18 76 26 123 26M724 200c-43 16-83 20-122 16" fill="none" stroke="#f2b705" stroke-width="8" stroke-linecap="round" opacity=".25"/>
+</svg>

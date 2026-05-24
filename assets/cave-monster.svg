@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Cave monster</title>
+  <desc id="desc">A silly spooky monster waits in the cave.</desc>
+  <defs>
+    <radialGradient id="cave" cx="50%" cy="58%" r="58%">
+      <stop offset="0" stop-color="#8b5c4e"/>
+      <stop offset="0.38" stop-color="#3a3047"/>
+      <stop offset="1" stop-color="#12101a"/>
+    </radialGradient>
+    <linearGradient id="monster" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#7ad66d"/>
+      <stop offset="1" stop-color="#245d45"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="540" fill="url(#cave)"/>
+  <path d="M0 0h294l135 224H0zm960 0H666L531 224h429z" fill="#211b2b"/>
+  <path d="M350 540l78-238h104l78 238z" fill="#14111b"/>
+  <path d="M276 498c110-39 279-52 408-6" fill="none" stroke="#5d4b5f" stroke-width="20" stroke-linecap="round" opacity=".55"/>
+  <path d="M345 379c-28-76 9-161 83-190 99-38 196 30 190 135-4 74-63 139-139 151-55 9-111-27-134-96z" fill="url(#monster)" stroke="#143727" stroke-width="12"/>
+  <path d="M356 306c-55-17-86-53-103-106 70 4 112 32 138 85m218 17c51-26 75-66 81-120-66 16-103 51-123 108" fill="#245d45" stroke="#143727" stroke-width="10" stroke-linejoin="round"/>
+  <circle cx="431" cy="305" r="35" fill="#f6f4cf"/>
+  <circle cx="535" cy="296" r="35" fill="#f6f4cf"/>
+  <circle cx="441" cy="314" r="14" fill="#16121c"/>
+  <circle cx="522" cy="305" r="14" fill="#16121c"/>
+  <path d="M421 397c44 27 91 24 130-10" fill="none" stroke="#12101a" stroke-width="16" stroke-linecap="round"/>
+  <path d="M444 403l14 35 22-31 23 35 18-39" fill="#f6f4cf"/>
+  <circle cx="305" cy="140" r="13" fill="#f2b705" opacity=".9"/>
+  <circle cx="675" cy="151" r="11" fill="#f2b705" opacity=".8"/>
+</svg>

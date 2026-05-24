@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Cave exit</title>
+  <desc id="desc">A bright green cave exit at the end of a dark passage.</desc>
+  <defs>
+    <radialGradient id="outside" cx="50%" cy="48%" r="52%">
+      <stop offset="0" stop-color="#c9ffe5"/>
+      <stop offset="0.22" stop-color="#4ac891"/>
+      <stop offset="0.47" stop-color="#3d334a"/>
+      <stop offset="1" stop-color="#12101a"/>
+    </radialGradient>
+  </defs>
+  <rect width="960" height="540" fill="url(#outside)"/>
+  <path d="M0 0h312l126 214H0zm960 0H648L522 214h438z" fill="#211b2b"/>
+  <path d="M345 540l79-260h112l79 260z" fill="#14111b" opacity=".75"/>
+  <path d="M375 403c-17-115 25-218 105-218s121 105 105 218z" fill="#d9fff0" opacity=".95"/>
+  <path d="M404 405c-8-84 21-156 76-156s85 72 76 156z" fill="#49c58f"/>
+  <path d="M433 405c-2-51 15-94 47-94s49 43 47 94z" fill="#167553"/>
+  <path d="M255 456c130-51 309-50 450 0" fill="none" stroke="#6ad7a6" stroke-width="18" stroke-linecap="round" opacity=".35"/>
+  <circle cx="431" cy="212" r="16" fill="#f9fff6" opacity=".86"/>
+  <circle cx="531" cy="238" r="11" fill="#f9fff6" opacity=".74"/>
+</svg>

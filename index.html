@@ -12,8 +12,8 @@
         <p class="eyebrow">AdventureQuest</p>
         <h1>Vælg din helt og udforsk grotten</h1>
         <p>
-          Find skatte, kæmp mod monstre, og nå udgangen. Spillet virker både
-          med piletaster på PC og med knapper på iPad.
+          Kig rundt inde i grotten, drej helten i nye retninger, find skatte,
+          kæmp mod monstre, og nå udgangen.
         </p>
       </section>
 
@@ -50,26 +50,57 @@
             <span class="stat-label">Skatte</span>
             <strong id="stat-treasures">0 / 3</strong>
           </div>
+          <div>
+            <span class="stat-label">Retning</span>
+            <strong id="stat-direction">Nord</strong>
+          </div>
         </div>
 
         <div class="play-area">
-          <div
-            class="board"
-            id="board"
-            role="grid"
-            aria-label="Grottekort"
-          ></div>
+          <section class="cave-view" aria-label="Grotten set fra heltens synspunkt">
+            <div class="scene-frame">
+              <img
+                class="scene-image"
+                id="scene-image"
+                src="assets/cave-hallway.svg"
+                alt="En mørk grottegang set indefra"
+              />
+              <div class="scene-shadow"></div>
+              <div class="scene-text">
+                <span class="direction-pill" id="direction-label">Ser mod nord</span>
+                <h3 id="scene-title">Du står i grotten</h3>
+                <p id="scene-description">Vælg en retning og gå på eventyr.</p>
+                <div class="passage-hints" id="passage-hints"></div>
+              </div>
+            </div>
+
+            <div class="controls" aria-label="Styr helten">
+              <button type="button" data-action="turn-left" aria-label="Drej mod venstre">
+                Drej venstre
+              </button>
+              <button type="button" data-action="move-forward" aria-label="Gå frem">
+                Gå frem
+              </button>
+              <button type="button" data-action="turn-right" aria-label="Drej mod højre">
+                Drej højre
+              </button>
+              <button class="secondary-button" type="button" id="map-toggle">
+                Vis kort
+              </button>
+            </div>
+          </section>
 
           <aside class="sidebar">
-            <h3>Styring</h3>
-            <div class="controls" aria-label="Flyt helten">
-              <span></span>
-              <button type="button" data-direction="up" aria-label="Gå op">Op</button>
-              <span></span>
-              <button type="button" data-direction="left" aria-label="Gå til venstre">Venstre</button>
-              <button type="button" data-direction="down" aria-label="Gå ned">Ned</button>
-              <button type="button" data-direction="right" aria-label="Gå til højre">Højre</button>
-            </div>
+            <section class="map-card is-hidden" id="map-panel" aria-labelledby="map-title">
+              <h3 id="map-title">Kort over grotten</h3>
+              <div
+                class="board"
+                id="board"
+                role="grid"
+                aria-label="Grottekort"
+              ></div>
+              <p class="map-help">Tip: trekanten viser, hvilken vej helten kigger.</p>
+            </section>
 
             <h3>Hvad sker der?</h3>
             <ol class="log" id="event-log" aria-live="polite"></ol>

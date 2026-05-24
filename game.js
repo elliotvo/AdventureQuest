@@ -38,6 +38,21 @@ const caveMap = [
   "########",
 ];
 
+const directions = [
+  { id: "north", label: "Nord", shortLabel: "N", symbol: "^", x: 0, y: -1 },
+  { id: "east", label: "Øst", shortLabel: "Ø", symbol: ">", x: 1, y: 0 },
+  { id: "south", label: "Syd", shortLabel: "S", symbol: "v", x: 0, y: 1 },
+  { id: "west", label: "Vest", shortLabel: "V", symbol: "<", x: -1, y: 0 },
+];
+
+const sceneImages = {
+  hallway: "assets/cave-hallway.svg",
+  wall: "assets/cave-wall.svg",
+  monster: "assets/cave-monster.svg",
+  treasure: "assets/cave-treasure.svg",
+  exit: "assets/cave-exit.svg",
+};
+
 const treasureGoal = 3;
 const monsterStartHealth = 7;
 const monsterDamage = 2;
@@ -48,10 +63,18 @@ const gamePanel = document.querySelector("#game-panel");
 const board = document.querySelector("#board");
 const eventLog = document.querySelector("#event-log");
 const restartButton = document.querySelector("#restart-button");
+const mapToggle = document.querySelector("#map-toggle");
+const mapPanel = document.querySelector("#map-panel");
+const sceneImage = document.querySelector("#scene-image");
+const sceneTitle = document.querySelector("#scene-title");
+const sceneDescription = document.querySelector("#scene-description");
+const directionLabel = document.querySelector("#direction-label");
+const passageHints = document.querySelector("#passage-hints");
 const statHero = document.querySelector("#stat-hero");
 const statHealth = document.querySelector("#stat-health");
 const statPower = document.querySelector("#stat-power");
 const statTreasures = document.querySelector("#stat-treasures");
+const statDirection = document.querySelector("#stat-direction");
 
 let game = null;
 
@@ -104,11 +127,13 @@ function startGame(heroId) {
     tiles: boardState.tiles,
     monsters: boardState.monsters,
     position: boardState.start,
+    direction: 1,
     health: hero.health,
     treasures: 0,
+    isMapVisible: false,
     isOver: false,
     messages: [
-      `${hero.name} går ind i grotten. Find ${treasureGoal} skatte!`,
+      `${hero.name} går ind i grotten og kigger mod øst. Find ${treasureGoal} skatte!`,
     ],
   };
 
@@ -124,31 +149,49 @@ function restartGame() {
   renderHeroPicker();
 }
 
-function moveHero(direction) {
-  if (!game || game.isOver) {
+function performAction(action) {
+  if (!game) {
     return;
   }
 
-  const movement = {
-    up: { x: 0, y: -1 },
-    down: { x: 0, y: 1 },
-    left: { x: -1, y: 0 },
-    right: { x: 1, y: 0 },
-  }[direction];
-
-  if (!movement) {
+  if (action === "toggle-map") {
+    toggleMap();
     return;
   }
 
-  const next = {
-    x: game.position.x + movement.x,
-    y: game.position.y + movement.y,
-  };
+  if (game.isOver) {
+    return;
+  }
 
+  if (action === "turn-left") {
+    turnHero(-1);
+  }
+
+  if (action === "turn-right") {
+    turnHero(1);
+  }
+
+  if (action === "turn-around") {
+    turnHero(2);
+  }
+
+  if (action === "move-forward") {
+    moveForward();
+  }
+}
+
+function turnHero(change) {
+  game.direction = (game.direction + change + directions.length) % directions.length;
+  addMessage(`Du drejede og ser nu mod ${currentDirection().label.toLowerCase()}.`);
+  renderGame();
+}
+
+function moveForward() {
+  const next = tileInFront();
   const tile = game.tiles[next.y]?.[next.x];
 
   if (!tile || tile === "#") {
-    addMessage("Av! Der er en grottevæg i vejen.");
+    addMessage("Av! Der er en grottevæg lige foran dig.");
     renderGame();
     return;
   }
@@ -170,11 +213,11 @@ function moveHero(direction) {
     game.treasures += 1;
     game.tiles[next.y][next.x] = ".";
     addMessage(`Du fandt en skat! Nu har du ${game.treasures}.`);
-  }
-
-  if (tile === "E") {
+  } else if (tile === "E") {
     game.isOver = true;
     addMessage("Du fandt udgangen og vandt AdventureQuest!");
+  } else {
+    addMessage("Du går forsigtigt frem gennem den mørke gang.");
   }
 
   renderGame();
@@ -188,7 +231,7 @@ function fightMonster(next) {
     delete game.monsters[key];
     game.tiles[next.y][next.x] = ".";
     game.position = next;
-    addMessage("Monsteret blev besejret! Grotten er lidt mere sikker.");
+    addMessage("Monsteret blev besejret! Du træder forbi det.");
     renderGame();
     return;
   }
@@ -207,13 +250,45 @@ function fightMonster(next) {
   renderGame();
 }
 
+function toggleMap() {
+  game.isMapVisible = !game.isMapVisible;
+  addMessage(game.isMapVisible ? "Du folder kortet ud." : "Du gemmer kortet væk.");
+  renderGame();
+}
+
+function tileInFront() {
+  const direction = currentDirection();
+
+  return {
+    x: game.position.x + direction.x,
+    y: game.position.y + direction.y,
+  };
+}
+
+function tileAtRelative(turnsFromForward) {
+  const direction = directions[(game.direction + turnsFromForward + directions.length) % directions.length];
+
+  return {
+    direction,
+    x: game.position.x + direction.x,
+    y: game.position.y + direction.y,
+    tile: game.tiles[game.position.y + direction.y]?.[game.position.x + direction.x],
+  };
+}
+
+function currentDirection() {
+  return directions[game.direction];
+}
+
 function addMessage(message) {
   game.messages = [message, ...game.messages].slice(0, 6);
 }
 
 function renderGame() {
   renderStats();
+  renderScene();
   renderBoard();
+  renderMapToggle();
   renderLog();
 }
 
@@ -222,6 +297,92 @@ function renderStats() {
   statHealth.textContent = `${game.health} / ${game.hero.health}`;
   statPower.textContent = game.hero.power;
   statTreasures.textContent = `${game.treasures} / ${treasureGoal}`;
+  statDirection.textContent = currentDirection().label;
+}
+
+function renderScene() {
+  const front = tileAtRelative(0);
+  const scene = sceneForTile(front.tile);
+
+  sceneImage.src = scene.image;
+  sceneImage.alt = scene.alt;
+  sceneTitle.textContent = scene.title;
+  sceneDescription.textContent = scene.description;
+  directionLabel.textContent = `Ser mod ${currentDirection().label.toLowerCase()}`;
+  passageHints.innerHTML = passageHintMarkup();
+}
+
+function sceneForTile(tile) {
+  if (!tile || tile === "#") {
+    return {
+      image: sceneImages.wall,
+      alt: "En rå stenvæg stopper vejen",
+      title: "En væg blokerer vejen",
+      description: "Du kan ikke gå frem her. Drej helten for at kigge en anden vej.",
+    };
+  }
+
+  if (tile === "M") {
+    const monsterHealth = game.monsters[coordKey(tileInFront().x, tileInFront().y)];
+
+    return {
+      image: sceneImages.monster,
+      alt: "Et grønt monster står i grottegangen",
+      title: "Et monster står foran dig!",
+      description: `Gå frem for at angribe. Monsterets liv: ${monsterHealth}.`,
+    };
+  }
+
+  if (tile === "T") {
+    return {
+      image: sceneImages.treasure,
+      alt: "En lysende skattekiste står i grotten",
+      title: "Du ser en skat",
+      description: "Gå frem for at samle skatten op.",
+    };
+  }
+
+  if (tile === "E") {
+    const isLocked = game.treasures < treasureGoal;
+
+    return {
+      image: sceneImages.exit,
+      alt: "En lysende udgang for enden af grotten",
+      title: isLocked ? "Udgangen er låst" : "Udgangen er åben!",
+      description: isLocked
+        ? `Du skal finde ${treasureGoal} skatte, før du kan gå ud.`
+        : "Gå frem for at vinde spillet.",
+    };
+  }
+
+  return {
+    image: sceneImages.hallway,
+    alt: "En mørk grottegang set indefra",
+    title: "En uhyggelig gang fortsætter",
+    description: "Du kan gå frem eller dreje for at se, hvad der er ved siden af dig.",
+  };
+}
+
+function passageHintMarkup() {
+  const hints = [
+    ["Venstre", tileAtRelative(-1)],
+    ["Frem", tileAtRelative(0)],
+    ["Højre", tileAtRelative(1)],
+  ];
+
+  return hints
+    .map(([label, info]) => `<span class="passage-hint">${label}: ${tileHint(info.tile)}</span>`)
+    .join("");
+}
+
+function tileHint(tile) {
+  return {
+    "#": "væg",
+    "T": "skat",
+    "M": "monster",
+    "E": "udgang",
+    ".": "gang",
+  }[tile] ?? "væg";
 }
 
 function renderBoard() {
@@ -238,7 +399,7 @@ function renderBoard() {
       cell.setAttribute("aria-label", tileLabel(tile, hasHero));
 
       if (hasHero) {
-        cell.dataset.hero = game.hero.initial;
+        cell.dataset.hero = currentDirection().symbol;
       } else {
         cell.textContent = tileText(tile);
       }
@@ -246,6 +407,15 @@ function renderBoard() {
       board.appendChild(cell);
     });
   });
+}
+
+function renderMapToggle() {
+  mapPanel.classList.toggle("is-hidden", !game.isMapVisible);
+  mapToggle.textContent = game.isMapVisible ? "Gem kort" : "Vis kort";
+  mapToggle.setAttribute(
+    "aria-label",
+    game.isMapVisible ? "Gem kortet over grotten" : "Vis kortet over grotten",
+  );
 }
 
 function tileClass(tile) {
@@ -268,7 +438,7 @@ function tileText(tile) {
 
 function tileLabel(tile, hasHero) {
   if (hasHero) {
-    return `Helten ${game.hero.name}`;
+    return `Helten ${game.hero.name}, ser mod ${currentDirection().label}`;
   }
 
   return {
@@ -293,26 +463,35 @@ heroList.addEventListener("click", (event) => {
   }
 });
 
-document.querySelectorAll("[data-direction]").forEach((button) => {
-  button.addEventListener("click", () => moveHero(button.dataset.direction));
+document.querySelectorAll("[data-action]").forEach((button) => {
+  button.addEventListener("click", () => performAction(button.dataset.action));
 });
 
 document.addEventListener("keydown", (event) => {
-  const directionByKey = {
-    ArrowUp: "up",
-    ArrowDown: "down",
-    ArrowLeft: "left",
-    ArrowRight: "right",
+  const actionByKey = {
+    ArrowUp: "move-forward",
+    w: "move-forward",
+    W: "move-forward",
+    ArrowLeft: "turn-left",
+    a: "turn-left",
+    A: "turn-left",
+    ArrowRight: "turn-right",
+    d: "turn-right",
+    D: "turn-right",
+    ArrowDown: "turn-around",
+    m: "toggle-map",
+    M: "toggle-map",
   };
 
-  const direction = directionByKey[event.key];
+  const action = actionByKey[event.key];
 
-  if (direction) {
+  if (action) {
     event.preventDefault();
-    moveHero(direction);
+    performAction(action);
   }
 });
 
 restartButton.addEventListener("click", restartGame);
+mapToggle.addEventListener("click", () => performAction("toggle-map"));
 
 renderHeroPicker();

@@ -20,9 +20,11 @@ lyde og større baner.
 
 1. Åbn `index.html` i en browser.
 2. Vælg en helt.
-3. Brug piletasterne på PC eller de store knapper på iPad.
-4. Saml 3 skatte.
-5. Find udgangen og vind spillet.
+3. Brug `Drej venstre`, `Gå frem` og `Drej højre` på iPad.
+4. På PC kan du bruge piletasterne: venstre/højre drejer, og op går frem.
+5. Tryk på `Vis kort` for at se kortet over grotten, og `Gem kort` for at skjule det igen.
+6. Saml 3 skatte.
+7. Find udgangen og vind spillet.
 
 ## Sådan kører man spillet lokalt
 
@@ -47,6 +49,9 @@ http://localhost:8000
 
 - [x] Vælg mellem flere helte.
 - [x] Gå rundt i et grottesystem.
+- [x] Se grotten fra heltens synspunkt.
+- [x] Drej helten, så man kan kigge i andre retninger.
+- [x] Vis og gem kortet med en kort-knap.
 - [x] Find skatte.
 - [x] Kæmp mod monstre.
 - [x] Vind ved at finde udgangen.
@@ -56,7 +61,8 @@ http://localhost:8000
 - Scan eller fotografer tegningerne.
 - Gem dem som `.png` eller `.webp`.
 - Lav mapper som `assets/heroes/` og `assets/monsters/`.
-- Udskift de farvede felter i spillet med billederne.
+- Udskift de farvede helte- og monsterfelter i spillet med billederne.
+- Brug de nye SVG-billeder i `assets/` som eksempler på grottebilleder indefra.
 
 Forslag til filnavne:
 

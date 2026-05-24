@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Treasure in cave</title>
+  <desc id="desc">A glowing treasure chest in a cave passage.</desc>
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="66%" r="62%">
+      <stop offset="0" stop-color="#ffd36b"/>
+      <stop offset="0.32" stop-color="#6d4b49"/>
+      <stop offset="1" stop-color="#12101a"/>
+    </radialGradient>
+  </defs>
+  <rect width="960" height="540" fill="url(#glow)"/>
+  <path d="M0 0h305l126 225H0zm960 0H655L529 225h431z" fill="#231d2e"/>
+  <path d="M360 540l75-240h90l75 240z" fill="#14111b" opacity=".8"/>
+  <ellipse cx="480" cy="433" rx="186" ry="44" fill="#15111c" opacity=".62"/>
+  <path d="M342 339h276v118H342z" fill="#9a5226" stroke="#3d260f" stroke-width="12"/>
+  <path d="M365 289h230c27 0 49 22 49 49v29H316v-29c0-27 22-49 49-49z" fill="#c7782b" stroke="#3d260f" stroke-width="12"/>
+  <path d="M316 367h328" stroke="#3d260f" stroke-width="12"/>
+  <path d="M468 289v168m-126-73h276" stroke="#f2b705" stroke-width="16"/>
+  <rect x="447" y="371" width="66" height="58" rx="10" fill="#f2b705" stroke="#3d260f" stroke-width="8"/>
+  <circle cx="479" cy="398" r="9" fill="#3d260f"/>
+  <path d="M261 238l35-24 35 24-35 24zm408 11l26-18 26 18-26 18zM463 171l40-29 40 29-40 29z" fill="#ffe08a" opacity=".82"/>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Cave wall</title>
+  <desc id="desc">A rough stone wall blocks the way.</desc>
+  <defs>
+    <radialGradient id="light" cx="50%" cy="46%" r="62%">
+      <stop offset="0" stop-color="#7c6b77"/>
+      <stop offset="0.45" stop-color="#3f3448"/>
+      <stop offset="1" stop-color="#15111c"/>
+    </radialGradient>
+  </defs>
+  <rect width="960" height="540" fill="#14111b"/>
+  <rect width="960" height="540" fill="url(#light)"/>
+  <path d="M0 91l152-42 116 43 143-54 142 48 130-44 277 65v433H0z" fill="#2c2532"/>
+  <path d="M0 162l116 26 132-58 143 78 176-75 119 64 274-58" fill="none" stroke="#55475b" stroke-width="18" opacity=".7"/>
+  <path d="M54 325l150-54 142 42 136-63 162 54 112-49 148 48" fill="none" stroke="#1c1722" stroke-width="20" opacity=".68"/>
+  <path d="M132 38l24 96 39-89m230-33l-56 126 92-42m314-58l-82 122 127-64" fill="none" stroke="#18141f" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="480" cy="270" r="120" fill="#e7bd74" opacity=".13"/>
+  <path d="M313 455c101-31 213-36 342-5" fill="none" stroke="#746070" stroke-width="16" stroke-linecap="round" opacity=".45"/>
+</svg>
