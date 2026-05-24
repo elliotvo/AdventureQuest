@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AdventureQuest</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="hero">
+        <p class="eyebrow">AdventureQuest</p>
+        <h1>Vælg din helt og udforsk grotten</h1>
+        <p>
+          Find skatte, kæmp mod monstre, og nå udgangen. Spillet virker både
+          med piletaster på PC og med knapper på iPad.
+        </p>
+      </section>
+
+      <section class="panel" id="hero-picker" aria-labelledby="hero-picker-title">
+        <h2 id="hero-picker-title">1. Vælg en helt</h2>
+        <div class="hero-grid" id="hero-list"></div>
+      </section>
+
+      <section class="panel game-panel is-hidden" id="game-panel" aria-labelledby="game-title">
+        <div class="game-header">
+          <div>
+            <h2 id="game-title">2. Gå ind i grotten</h2>
+            <p id="goal-text">Saml 3 skatte og find udgangen.</p>
+          </div>
+          <button class="secondary-button" id="restart-button" type="button">
+            Start forfra
+          </button>
+        </div>
+
+        <div class="stats" aria-live="polite">
+          <div>
+            <span class="stat-label">Helt</span>
+            <strong id="stat-hero">-</strong>
+          </div>
+          <div>
+            <span class="stat-label">Liv</span>
+            <strong id="stat-health">-</strong>
+          </div>
+          <div>
+            <span class="stat-label">Styrke</span>
+            <strong id="stat-power">-</strong>
+          </div>
+          <div>
+            <span class="stat-label">Skatte</span>
+            <strong id="stat-treasures">0 / 3</strong>
+          </div>
+        </div>
+
+        <div class="play-area">
+          <div
+            class="board"
+            id="board"
+            role="grid"
+            aria-label="Grottekort"
+          ></div>
+
+          <aside class="sidebar">
+            <h3>Styring</h3>
+            <div class="controls" aria-label="Flyt helten">
+              <span></span>
+              <button type="button" data-direction="up" aria-label="Gå op">Op</button>
+              <span></span>
+              <button type="button" data-direction="left" aria-label="Gå til venstre">Venstre</button>
+              <button type="button" data-direction="down" aria-label="Gå ned">Ned</button>
+              <button type="button" data-direction="right" aria-label="Gå til højre">Højre</button>
+            </div>
+
+            <h3>Hvad sker der?</h3>
+            <ol class="log" id="event-log" aria-live="polite"></ol>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>
