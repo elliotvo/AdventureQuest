@@ -28,14 +28,35 @@ const heroes = [
   },
 ];
 
-const caveMap = [
-  "########",
-  "#S..T..#",
-  "#.##.#.#",
-  "#..M.#E#",
-  "#T.#...#",
-  "#..M.T.#",
-  "########",
+const caveMaps = [
+  {
+    id: "crystal-cave",
+    name: "Krystalgrotten",
+    description: "Den første grotte med korte gange og mange vægge.",
+    layout: [
+      "########",
+      "#S..T..#",
+      "#.##.#.#",
+      "#..M.#E#",
+      "#T.#...#",
+      "#..M.T.#",
+      "########",
+    ],
+  },
+  {
+    id: "echo-cave",
+    name: "Ekkogrotten",
+    description: "En ny grotte med længere gange, et monster og gemte skatte.",
+    layout: [
+      "########",
+      "#S..T.E#",
+      "#.##.#.#",
+      "#..M...#",
+      "##.#.#.#",
+      "#T...T.#",
+      "########",
+    ],
+  },
 ];
 
 const directions = [
@@ -57,6 +78,7 @@ const treasureGoal = 3;
 const monsterStartHealth = 7;
 const monsterDamage = 2;
 
+const mapList = document.querySelector("#map-list");
 const heroList = document.querySelector("#hero-list");
 const heroPicker = document.querySelector("#hero-picker");
 const gamePanel = document.querySelector("#game-panel");
@@ -75,11 +97,13 @@ const statHealth = document.querySelector("#stat-health");
 const statPower = document.querySelector("#stat-power");
 const statTreasures = document.querySelector("#stat-treasures");
 const statDirection = document.querySelector("#stat-direction");
+const statMap = document.querySelector("#stat-map");
 
 let game = null;
+let selectedMapId = caveMaps[0].id;
 
-function createBoardState() {
-  const tiles = caveMap.map((row) => row.split(""));
+function createBoardState(caveMap) {
+  const tiles = caveMap.layout.map((row) => row.split(""));
   const monsters = {};
   let start = { x: 1, y: 1 };
 
@@ -103,6 +127,24 @@ function coordKey(x, y) {
   return `${x},${y}`;
 }
 
+function renderMapPicker() {
+  mapList.innerHTML = caveMaps
+    .map(
+      (caveMap) => `
+        <button
+          class="map-choice-card${caveMap.id === selectedMapId ? " is-selected" : ""}"
+          type="button"
+          data-map-id="${caveMap.id}"
+          aria-pressed="${caveMap.id === selectedMapId}"
+        >
+          <strong>${caveMap.name}</strong>
+          <span>${caveMap.description}</span>
+        </button>
+      `,
+    )
+    .join("");
+}
+
 function renderHeroPicker() {
   heroList.innerHTML = heroes
     .map(
@@ -120,10 +162,12 @@ function renderHeroPicker() {
 
 function startGame(heroId) {
   const hero = heroes.find((candidate) => candidate.id === heroId);
-  const boardState = createBoardState();
+  const caveMap = caveMaps.find((candidate) => candidate.id === selectedMapId);
+  const boardState = createBoardState(caveMap);
 
   game = {
     hero,
+    caveMap,
     tiles: boardState.tiles,
     monsters: boardState.monsters,
     position: boardState.start,
@@ -133,7 +177,7 @@ function startGame(heroId) {
     isMapVisible: false,
     isOver: false,
     messages: [
-      `${hero.name} går ind i grotten og kigger mod øst. Find ${treasureGoal} skatte!`,
+      `${hero.name} går ind i ${caveMap.name} og kigger mod øst. Find ${treasureGoal} skatte!`,
     ],
   };
 
@@ -146,6 +190,7 @@ function restartGame() {
   game = null;
   heroPicker.classList.remove("is-hidden");
   gamePanel.classList.add("is-hidden");
+  renderMapPicker();
   renderHeroPicker();
 }
 
@@ -298,6 +343,7 @@ function renderStats() {
   statPower.textContent = game.hero.power;
   statTreasures.textContent = `${game.treasures} / ${treasureGoal}`;
   statDirection.textContent = currentDirection().label;
+  statMap.textContent = game.caveMap.name;
 }
 
 function renderScene() {
@@ -455,6 +501,15 @@ function renderLog() {
     .join("");
 }
 
+mapList.addEventListener("click", (event) => {
+  const mapButton = event.target.closest("[data-map-id]");
+
+  if (mapButton) {
+    selectedMapId = mapButton.dataset.mapId;
+    renderMapPicker();
+  }
+});
+
 heroList.addEventListener("click", (event) => {
   const heroButton = event.target.closest("[data-hero-id]");
 
@@ -494,4 +549,5 @@ document.addEventListener("keydown", (event) => {
 restartButton.addEventListener("click", restartGame);
 mapToggle.addEventListener("click", () => performAction("toggle-map"));
 
+renderMapPicker();
 renderHeroPicker();

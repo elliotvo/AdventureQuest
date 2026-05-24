@@ -19,12 +19,13 @@ lyde og større baner.
 ## Sådan spiller du
 
 1. Åbn `index.html` i en browser.
-2. Vælg en helt.
-3. Brug `Drej venstre`, `Gå frem` og `Drej højre` på iPad.
-4. På PC kan du bruge piletasterne: venstre/højre drejer, og op går frem.
-5. Tryk på `Vis kort` for at se kortet over grotten, og `Gem kort` for at skjule det igen.
-6. Saml 3 skatte.
-7. Find udgangen og vind spillet.
+2. Vælg en grotte.
+3. Vælg en helt.
+4. Brug `Drej venstre`, `Gå frem` og `Drej højre` på iPad.
+5. På PC kan du bruge piletasterne: venstre/højre drejer, og op går frem.
+6. Tryk på `Vis kort` for at se kortet over grotten, og `Gem kort` for at skjule det igen.
+7. Saml 3 skatte.
+8. Find udgangen og vind spillet.
 
 ## Sådan kører man spillet lokalt
 
@@ -48,6 +49,7 @@ http://localhost:8000
 ### Trin 1: Spilbar prototype
 
 - [x] Vælg mellem flere helte.
+- [x] Vælg mellem flere grotter.
 - [x] Gå rundt i et grottesystem.
 - [x] Se grotten fra heltens synspunkt.
 - [x] Drej helten, så man kan kigge i andre retninger.
@@ -76,7 +78,7 @@ assets/treasures/chest.png
 
 ### Trin 3: Gør spillet sjovere
 
-- Flere baner.
+- Endnu flere baner.
 - Flere monstre med forskellige styrker.
 - Nøgler, døre og hemmelige rum.
 - Lydeffekter.

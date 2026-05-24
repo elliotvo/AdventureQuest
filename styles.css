@@ -110,23 +110,52 @@ button:active {
   margin-top: 0;
 }
 
-.hero-grid {
+.hero-grid,
+.map-choice-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
 
-.hero-card {
+.hero-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.map-choice-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 24px;
+}
+
+.hero-card,
+.map-choice-card {
   display: grid;
   gap: 14px;
   width: 100%;
-  min-height: 260px;
   padding: 18px;
   border: 2px solid transparent;
   border-radius: 20px;
   color: var(--text);
   text-align: left;
   background: var(--panel-strong);
+}
+
+.hero-card {
+  min-height: 260px;
+}
+
+.map-choice-card.is-selected {
+  border-color: var(--accent-dark);
+  background: #f1e7ff;
+  box-shadow: inset 0 0 0 2px rgb(255 255 255 / 70%);
+}
+
+.map-choice-card strong {
+  display: block;
+  font-size: 1.25rem;
+}
+
+.map-choice-card span {
+  color: var(--muted);
+  font-weight: 700;
 }
 
 .hero-card strong {
@@ -172,7 +201,7 @@ button:active {
 }
 
 .stats {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
 .stats > div {
@@ -393,6 +422,7 @@ button:active {
 
 @media (max-width: 920px) {
   .hero-grid,
+  .map-choice-grid,
   .stats,
   .play-area,
   .game-header {
