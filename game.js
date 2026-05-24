@@ -114,6 +114,29 @@ const monsterTypes = {
 
 const treasureGoal = 3;
 
+const chestRewards = [
+  {
+    name: "guldmønter",
+    gold: 6,
+    message: "Du putter 6 guldmønter i tasken.",
+  },
+  {
+    name: "en helsedrik",
+    healing: 4,
+    message: "Du drikker den og får op til 4 liv tilbage.",
+  },
+  {
+    name: "en styrkekrystal",
+    power: 1,
+    message: "Din helt får +1 styrke resten af spillet.",
+  },
+  {
+    name: "en stor bunke guld",
+    gold: 10,
+    message: "Du putter 10 guldmønter i tasken.",
+  },
+];
+
 const mapList = document.querySelector("#map-list");
 const heroList = document.querySelector("#hero-list");
 const heroPicker = document.querySelector("#hero-picker");
@@ -132,6 +155,7 @@ const statHero = document.querySelector("#stat-hero");
 const statHealth = document.querySelector("#stat-health");
 const statPower = document.querySelector("#stat-power");
 const statTreasures = document.querySelector("#stat-treasures");
+const statGold = document.querySelector("#stat-gold");
 const statDirection = document.querySelector("#stat-direction");
 const statMap = document.querySelector("#stat-map");
 
@@ -212,7 +236,9 @@ function startGame(heroId) {
     position: boardState.start,
     direction: 1,
     health: hero.health,
+    power: hero.power,
     treasures: 0,
+    gold: 0,
     isMapVisible: false,
     isOver: false,
     messages: [
@@ -294,9 +320,7 @@ function moveForward() {
   game.position = next;
 
   if (tile === "T") {
-    game.treasures += 1;
-    game.tiles[next.y][next.x] = ".";
-    addMessage(`Du fandt en skat! Nu har du ${game.treasures}.`);
+    openChest(next);
   } else if (tile === "E") {
     game.isOver = true;
     addMessage("Du fandt udgangen og vandt AdventureQuest!");
@@ -307,11 +331,40 @@ function moveForward() {
   renderGame();
 }
 
+function openChest(next) {
+  const reward = rewardForChest(next);
+  game.treasures += 1;
+  game.tiles[next.y][next.x] = ".";
+  applyChestReward(reward);
+  addMessage(
+    `Du åbnede kisten og fandt ${reward.name}! ${reward.message} Skatte: ${game.treasures}.`,
+  );
+}
+
+function rewardForChest(position) {
+  const seed = game.caveMap.id.length + position.x * 7 + position.y * 11;
+  return chestRewards[seed % chestRewards.length];
+}
+
+function applyChestReward(reward) {
+  if (reward.gold) {
+    game.gold += reward.gold;
+  }
+
+  if (reward.healing) {
+    game.health = Math.min(game.hero.health, game.health + reward.healing);
+  }
+
+  if (reward.power) {
+    game.power += reward.power;
+  }
+}
+
 function fightMonster(next) {
   const key = coordKey(next.x, next.y);
   const monster = game.monsters[key];
   const monsterType = monsterTypes[monster.type];
-  monster.health -= game.hero.power;
+  monster.health -= game.power;
 
   if (monster.health <= 0) {
     delete game.monsters[key];
@@ -381,8 +434,9 @@ function renderGame() {
 function renderStats() {
   statHero.textContent = game.hero.name;
   statHealth.textContent = `${game.health} / ${game.hero.health}`;
-  statPower.textContent = game.hero.power;
+  statPower.textContent = game.power;
   statTreasures.textContent = `${game.treasures} / ${treasureGoal}`;
+  statGold.textContent = game.gold;
   statDirection.textContent = currentDirection().label;
   statMap.textContent = game.caveMap.name;
 }
@@ -425,8 +479,8 @@ function sceneForTile(tile) {
     return {
       image: sceneImages.treasure,
       alt: "En lysende skattekiste står i grotten",
-      title: "Du ser en skat",
-      description: "Gå frem for at samle skatten op.",
+      title: "Du ser en skattekiste",
+      description: "Gå frem for at åbne kisten. Der er altid en belønning indeni.",
     };
   }
 

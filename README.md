@@ -24,8 +24,9 @@ lyde og større baner.
 4. Brug `Drej venstre`, `Gå frem` og `Drej højre` på iPad.
 5. På PC kan du bruge piletasterne: venstre/højre drejer, og op går frem.
 6. Tryk på `Vis kort` for at se kortet over grotten, og `Gem kort` for at skjule det igen.
-7. Saml 3 skatte.
-8. Find udgangen og vind spillet.
+7. Åbn skattekisterne. Hver kiste giver også en belønning, fx guld, helbredelse eller ekstra styrke.
+8. Saml 3 skatte.
+9. Find udgangen og vind spillet.
 
 ## Sådan kører man spillet lokalt
 
@@ -55,6 +56,7 @@ http://localhost:8000
 - [x] Drej helten, så man kan kigge i andre retninger.
 - [x] Vis og gem kortet med en kort-knap.
 - [x] Find skatte.
+- [x] Få belønninger, når man åbner skattekister.
 - [x] Kæmp mod flere forskellige monstre.
 - [x] Mød Tanddyret, Øjeslimen og Knoglekryberen.
 - [x] Vind ved at finde udgangen.
